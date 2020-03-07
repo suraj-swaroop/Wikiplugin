@@ -9,5 +9,6 @@ A statistical heat-map plugin for Wikipedia pages
 # How to run the Plugin code
 1. Go to the Extension Management page: chrome://extensions
 	- or go to the Chrome menu, go to <b>More Tools<b> -> <b>Extensions<b> <br>
-2. Enable Developer Mode by clicking the toggle
-3. Click <b>LOAD UNPACKED<b> and select the "plugin" directory from this project
+2. Enable Developer Mode by clicking the toggle <br>
+3. Click <b>LOAD UNPACKED<b> <br>
+4. Select the "plugin" directory from this project <br>
