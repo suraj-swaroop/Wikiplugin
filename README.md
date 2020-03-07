@@ -12,3 +12,4 @@ A statistical heat-map plugin for Wikipedia pages
 2. Enable Developer Mode by clicking the toggle <br>
 3. Click <b>LOAD UNPACKED<b> <br>
 4. Select the "plugin" directory from this project <br>
+5. Go to any Wikipedia page and try it out! <br>
