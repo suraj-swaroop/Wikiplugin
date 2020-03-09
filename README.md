@@ -23,5 +23,9 @@ clickstream dataset: <br>
 python download_dataset.py clickstream check  // cmd to check available month <br>
 python download_dataset.py clickstream (YYYY-MM)  // cmd to download data <br>
 python download_dataset.py clickstream (YYYYMM)  // cmd to download data (alternative) <br>
+
+# Project plan and tasks/timelines
+https://docs.google.com/document/d/1cME56u_E_HTbiS8pJfOru7UYfElqrAdZx9zbTRvjJc4/edit#
+
 	
 	    	
