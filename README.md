@@ -27,5 +27,8 @@ python download_dataset.py clickstream (YYYYMM)  // cmd to download data (altern
 # Project plan and tasks/timelines
 https://docs.google.com/document/d/1cME56u_E_HTbiS8pJfOru7UYfElqrAdZx9zbTRvjJc4/edit#
 
+# Milestone Presentation
+https://docs.google.com/presentation/d/1s90G7Oy4ttr4JGF00GpPXbya9oWgYCL5uDMDydW6ILo/edit?usp=sharing
+
 	
 	    	
