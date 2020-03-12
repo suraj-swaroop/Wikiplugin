@@ -15,14 +15,15 @@ A statistical heat-map plugin for Wikipedia pages
 5. Go to any Wikipedia page and try it out! <br>
 
 # How to download dataset 
-text dataset: <br>
-python download_dataset.py text available month check  // cmd to check available month <br>
-python download_dataset.py text (YYYYMM) number check  // cmd to check the number of files in the month <br>
-python download_dataset.py text (YYYYMM) (start_index) (end_index)  // cmd to download data with start/end index numbers <br>
-clickstream dataset: <br>
-python download_dataset.py clickstream check  // cmd to check available month <br>
-python download_dataset.py clickstream (YYYY-MM)  // cmd to download data <br>
-python download_dataset.py clickstream (YYYYMM)  // cmd to download data (alternative) <br>
+1. Run 
+$pyhon check_wikipedia_dataset.py
+
+2. Run
+'Data Type' and 'YYYYMM' are manatory, but you can skip inputing a thread count.
+$./run_download_wikipedia.sh [Data Type] [YYYYMM] [Thread Count]
+$./run_download_wikipedia.sh text 202001 10
+$./run_download_wikipedia.sh clickstream 202001 1
+
 
 # Project plan and tasks/timelines
 https://docs.google.com/document/d/1cME56u_E_HTbiS8pJfOru7UYfElqrAdZx9zbTRvjJc4/edit#
