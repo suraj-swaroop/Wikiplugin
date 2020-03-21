@@ -1,4 +1,4 @@
-'''This is a general template to run store or retrieve data from a Database in MySQL Server - Version 8.0
+'''This is a general template to store or retrieve data from a Database in MySQL Server - Version 8.0
 
     Before trying to execute the below code we need to pip install the below 3 libraries:
     1) sqlalchemy               2) mysql.connector                  3) pymysql
