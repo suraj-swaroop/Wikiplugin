@@ -50,8 +50,6 @@ def check_paht(inputPath):
     except OSError:
         print ("[Error] Creation of the directory %s failed" % inputPath)
         sys.exit(1)
-    else:
-        print ("Successfully created the directory %s" % inputPath)
           
         
 def clickstream(date):
@@ -68,29 +66,34 @@ def clickstream(date):
         if ('-enwiki-' in link.text):
             en_file = link.text
 
-    filename = file_page+en_file    
-    path = "./download/clickstream"
+    filename = file_page + en_file    
+    path = "../download/clickstream/" + date + "/"
     check_paht(path)
     
     download_file(filename, path)
     return 0
 
 
-def text(date, index):
-    url = 'http://dumps.wikimedia.your.org/other/pageviews/'
+def text(date, filepath):
+    url = 'https://dumps.wikimedia.org/enwiki/'
+    file_page = url + date + '01/'
 
-    available_files = []
-    file_page = url + date[0:4] + '/' + date[0:4] + "-" + date[4:6]
-
-    res_page = requests.get(file_page)
-    content_page = str(res_page.text)
-    html_page = BeautifulSoup(content_page, 'html.parser')
-    for a in html_page.find_all('a', href=True):
-        available_files.append(a['href'])
-
-    filename = file_page+"/"+available_files[int(index)]
-    path = "./download/pageview"
+    filename = file_page + filepath
+    path = "../download/text/" + date + "/"
     check_paht(path)
+    
+    download_file(filename, path)
+
+    return 0
+
+
+def pageview(date, filepath):
+    url = 'http://dumps.wikimedia.your.org/other/pageviews/2020'
+    filename = url + "/" + date[0:4] + "-" + date[4:6] + "/" + filepath
+    path = "../download/pageview/" + date + "/"
+    check_paht(path)
+    
+    print(filename)
     
     download_file(filename, path)
 
@@ -121,12 +124,13 @@ if __name__ == '__main__':
     data = (sys.argv[1]).split(":")
     dataType = data[0]
     date = data[1]
-    index = data[2]
-    print("[Input] date:[{}], index:[{}], type:[{}]".format(date, index, dataType))
+    filepath = data[2]
 
     if dataType == 'clickstream':
         clickstream(date)
     elif dataType == 'text':
-        text(date, index)
+        text(date, filepath)
+    elif dataType == 'pageview':
+        pageview(date, filepath)    
 
 # End of main
