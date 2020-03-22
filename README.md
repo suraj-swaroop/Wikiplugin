@@ -31,5 +31,7 @@ https://docs.google.com/document/d/1cME56u_E_HTbiS8pJfOru7UYfElqrAdZx9zbTRvjJc4/
 # Milestone Presentation
 https://docs.google.com/presentation/d/1s90G7Oy4ttr4JGF00GpPXbya9oWgYCL5uDMDydW6ILo/edit?usp=sharing
 
+# Manual Coding Sheet
+https://docs.google.com/spreadsheets/d/19a6dcgVih2JuC54kkl2GmVK4rJMlFVQbqYUnbjCIZDE/edit?usp=sharing
 	
 	    	
