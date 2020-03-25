@@ -27,6 +27,7 @@ $pyhon check_wikipedia_dataset.py
 
 # Project plan and tasks/timelines
 https://docs.google.com/document/d/1cME56u_E_HTbiS8pJfOru7UYfElqrAdZx9zbTRvjJc4/edit#
+
 (Gannt chart view) https://docs.google.com/spreadsheets/d/1On0m42xIltklqAcvlgChZyHNp3-ohIoc_A1NgW1khu4/edit#gid=0
 
 # Milestone Presentation
