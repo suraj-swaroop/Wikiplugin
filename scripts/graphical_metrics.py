@@ -5,8 +5,9 @@ import numpy as np
 from operator import itemgetter
 
 print('Reading CSV')
-df = pd.read_csv('../clickstream-enwiki-2020-01.tsv',sep='\t',header=None)
+df = pd.read_csv('../Datasets/clickstream-enwiki-2020-01.tsv',sep='\t',header=None)
 df.columns = ['From','To','RelationType','Count']
+df = df.head(2000)
 df = df[df['RelationType']=='link']
 
 # Building the graph G
@@ -65,4 +66,4 @@ articles_df['CommunityID'] = articles_df['Article'].apply(get_community)
 
 # Write CSV
 print('Writing CSV')
-articles_df.to_csv('graphical_metrics.csv',index=False)
+articles_df.to_csv('Results/graphical_metrics.csv',index=False)
