@@ -52,7 +52,7 @@ def model_all():
     dictionary, corpus = prep_corpus(df_text['text_tokens'])
     MmCorpus.serialize('wiki_articles.mm', corpus)
     dictionary.save('wiki_articles_new.dict')
-    lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=5, passes=50)
+    lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=15, passes=50)
     return lda, dictionary, corpus
 
 if __name__ == '__main__':
@@ -68,7 +68,6 @@ if __name__ == '__main__':
     filepath = 'Results/preprocess-'+date+'.csv'
     
     df_text = pd.read_csv(filepath)
-    df_text = df_text.head(20)
     df_text['text_tokens'] = df_text['text'].apply(tokenize_text)
     df_text['text_clean'] = df_text['text_tokens'].apply(lambda x: ' '.join(x))
 
@@ -95,4 +94,4 @@ if __name__ == '__main__':
     
     #Write to CSV
     print('Writing to CSV')
-    df_text.to_csv(r'Results/topic_modelling-'+date+'SAMPLE.csv')
+    df_text.to_csv(r'Results/topic_modelling-'+date+'.csv')
