@@ -9,7 +9,6 @@
     - Run 'graphical_metrics_parallel.py'
 5. merge_graphical_metrics_files.py
     - Merge splitted output *.csv files 
-
 6. run_data_preprocess.sh
     - Run data_preprocess.py
 7. run_get_textstat.sh
