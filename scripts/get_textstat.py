@@ -5,15 +5,10 @@
 # (textstat is a python package that calculates various metrics on sentence
 # complexity, such as the Dale–Chall formula, or the Flesch Reading Ease score) 
 
-import pandas as pd
-import textstat
+import os
 import sys, re
-# https://pypi.org/project/textstat/
-
-# Need to install textstat
-#get_ipython().system('pip install textstat')
-
-
+import textstat
+import pandas as pd
 
 # Input: text
 # Output: textstat outputs
@@ -30,16 +25,19 @@ def textstat_stats(text):
 
     return pd.Series([difficulty, grade_difficulty, gfog, smog, ari, cli, lwf, dcrs], index=idx)
 
-if __name__ == '__main__':
-#     if len(sys.argv) < 1:
-#         print("[Error] Invalid input")
-#         sys.exit(1)
 
-#     filepath = sys.argv[1]
-#     date = re.search(r'(preprocess)(.*?)(\.csv)', filepath).group(2)
-    
-    date = '20200101'
-    filepath = 'Results/preprocess-'+date+'.csv'
+# Checking a directory
+def check_path(inputPath):
+    try:
+        if not os.path.exists(inputPath):
+            print("[Warning] Create the path. Path:[{}]".format(inputPath))
+            os.makedirs(inputPath)
+    except OSError:
+        print ("[Error] Checking the directory %s failed" % inputPath)
+        sys.exit(1)
+        
+        
+def main(filepath):
     article_df = pd.read_csv(filepath, delimiter=',', encoding='utf-8')
 
     # Set language: English
@@ -49,4 +47,25 @@ if __name__ == '__main__':
     textstat_df = pd.concat([article_df, temp_df], axis=1, sort=False)
 
     # Save output
-    textstat_df.to_csv (r'Results/textstat-'+date+'.csv', index = False, header=True)
+    outputPath = "../Outputs/textstat/"
+    check_path(outputPath)
+    
+    left = filepath.find('_')
+    right = filepath.find('.csv')
+    outputPath = outputPath + "textstat_"+ str(filepath[left+1:right]) + ".csv"    
+    
+    # Get text stat data
+    textstat_df.to_csv(outputPath, index=False, header=True)
+    
+
+if __name__ == '__main__':
+    # Check arguments
+    if len(sys.argv) < 2:
+        print("[Error] Invalid inputs")
+        sys.exit(1)       
+        
+    filepath = sys.argv[1]
+    print("Path: {}".format(filepath))
+    
+    main(filepath)    
+    

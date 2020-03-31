@@ -16,6 +16,7 @@ from nltk.corpus import stopwords
 import pickle
 nltk.download('punkt')
 
+
 #Separates text into list of words
 def tokenize_text(s):
     line = re.sub('[!@#$]', '', s)
@@ -29,8 +30,10 @@ def tokenize_text(s):
         #result = ' '.join(result_list)
     return result_list
 
+
 def nltk_stopwords():
     return set(nltk.corpus.stopwords.words('english'))
+
 
 #builds dictionary and corpus based on article texts
 def prep_corpus(docs, additional_stopwords=set(), no_below=1, no_above=0.5):
@@ -47,6 +50,7 @@ def prep_corpus(docs, additional_stopwords=set(), no_below=1, no_above=0.5):
     corpus = [dictionary.doc2bow(doc) for doc in docs]
     return dictionary, corpus
 
+
 #returns model, dictionary and corpus
 def model_all():
     dictionary, corpus = prep_corpus(df_text['text_tokens'])
@@ -55,18 +59,28 @@ def model_all():
     lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=15, passes=50)
     return lda, dictionary, corpus
 
+
+# Checking a directory
+def check_path(inputPath):
+    try:
+        if not os.path.exists(inputPath):
+            print("[Warning] Create the path. Path:[{}]".format(inputPath))
+            os.makedirs(inputPath)
+    except OSError:
+        print ("[Error] Checking the directory %s failed" % inputPath)
+        sys.exit(1)
+
+
 if __name__ == '__main__':
-    #Command Line options if other files want to be used
-#     if len(sys.argv) < 1:
-#         print("[Error] Invalid input")
-#         sys.exit(1)
-
-#     filepath = sys.argv[1]
-#     date = re.search(r'(preprocess)(.*?)(\.csv)', filepath).group(2)
-
-    date = '20200101'
-    filepath = 'Results/preprocess-'+date+'.csv'
+    if len(sys.argv) < 2:
+        print("[Error] Invalid inputs")
+        sys.exit(1)       
+        
+    filepath = sys.argv[1]
+    date = filepath.split("_")[1]
+    print("Path: {}".format(filepath))
     
+    # Create a dataframe
     df_text = pd.read_csv(filepath)
     df_text['text_tokens'] = df_text['text'].apply(tokenize_text)
     df_text['text_clean'] = df_text['text_tokens'].apply(lambda x: ' '.join(x))
@@ -94,4 +108,6 @@ if __name__ == '__main__':
     
     #Write to CSV
     print('Writing to CSV')
-    df_text.to_csv(r'Results/topic_modelling-'+date+'.csv')
+    outputPath = "../Outputs/modelling/"
+    check_path(outputPath)
+    df_text.to_csv(outputPath + "topic_modelling-" + date + ".csv")

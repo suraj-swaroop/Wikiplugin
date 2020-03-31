@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import os
 import sys
-
+import bz2
 import pandas as pd
 import xmltodict, nltk
 import json
@@ -11,11 +12,10 @@ import numpy as np
 
 from nltk import download, tokenize, word_tokenize 
 from nltk.corpus import stopwords
-
 from gensim.models import Word2Vec
 
-nltk.download('stopwords')
-nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('punkt')
 stop_words = stopwords.words('english')
 
 def preprocess_sentence(doc):
@@ -32,7 +32,6 @@ def preprocess_word(doc):
         doc.remove('br') 
     return doc
 
-
 def preprocess_link(doc):
     if doc.startswith(', '):
         doc = doc[2:]
@@ -47,24 +46,36 @@ def get_centroid_vec(token_list):
         centroid_vec = centroid_vec + vec
     return centroid_vec/len(token_list)
 
-if __name__ == '__main__':
-# Command Line options
-#     if len(sys.argv) < 1:
-#         print("[Error] Invalid input")
-#         sys.exit(1)
+# Checking a directory
+def check_path(inputPath):
+    try:
+        if not os.path.exists(inputPath):
+            print("[Warning] Create the path. Path:[{}]".format(inputPath))
+            os.makedirs(inputPath)
+    except OSError:
+        print ("[Error] Checking the directory %s failed" % inputPath)
+        sys.exit(1)
 
-#     filepath = sys.argv[1]
+
+# Main
+if __name__ == '__main__':   
+    # Check arguments
+    if len(sys.argv) < 2:
+        print("[Error] Invalid inputs")
+        sys.exit(1)       
+        
 #     date = re.search(r'(enwiki\-)(.*?)(-pages)', filepath).group(2)
+#     date = '20200101'
+#     filepath = '../Datasets/enwiki-'+date+'-pages-articles-multistream1.xml-p10p30302'
+        
+    filepath = sys.argv[1]
+    date = filepath.split("-")[1]
+    print("Path: {}".format(filepath))
 
-    date = '20200101'
-    filepath = '../Datasets/enwiki-'+date+'-pages-articles-multistream1.xml-p10p30302'
-    with open(filepath, encoding='utf8') as file:
-        #data_text = file.read()
+    with bz2.open(filepath) as file:
         doc = xmltodict.parse(file.read())
-
-
     df_text = pd.DataFrame(columns=['title', 'text', 'wiki_link', 'redirect'])
-
+    
     # Reading in each article
     for page in doc['mediawiki']['page']:
         title = page['title']
@@ -112,5 +123,14 @@ if __name__ == '__main__':
     model.save('word_emb.model')
     df_text['centroid_vec'] =  df_text['text'].apply(get_centroid_vec)
     
-    print('Writing to CSV')
-    df_text.to_csv (r'Results/preprocess-'+date+'.csv', index = False, header=True)
+    # Write CSV
+    outputPath = "../Outputs/text"
+    check_path(outputPath)
+    
+    print('Writing CSV')
+    left = filepath.find('/enwiki')
+    right = filepath.find('.bz2')
+    outputPath = outputPath + "/" + "wikipedia_text_"+ str(filepath[left+1:right]) + ".csv"    
+    
+    df_text.to_csv(outputPath, index=False, header=True)
+    
