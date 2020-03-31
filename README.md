@@ -16,13 +16,16 @@ A statistical heat-map plugin for Wikipedia pages
 
 # How to download dataset 
 1. Run 
-$python check_wikipedia_dataset.py
-
+- $python check_wikipedia_dataset.py
 2. Run
 - 'Data Type' and 'YYYYMM' are manatory, but you can skip inputing a thread count.
 - $./run_download_wikipedia.sh [Data Type] [YYYYMM] [Thread Count]
 - $./run_download_wikipedia.sh text 202001 10
 - $./run_download_wikipedia.sh clickstream 202001 1
+- $./run_download_wikipedia.sh pageview 202001 10
+
+# Data Pipeline
+1. Please read 'DataPipeline.md'
 
 
 # Getting the article_summary-202001.csv file
