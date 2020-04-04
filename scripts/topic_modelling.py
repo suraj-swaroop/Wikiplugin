@@ -85,19 +85,28 @@ if __name__ == '__main__':
     df_text['text_tokens'] = df_text['text'].apply(tokenize_text)
     df_text['text_clean'] = df_text['text_tokens'].apply(lambda x: ' '.join(x))
 
-    #Building LDA Model
-    print('Building LDA model')
-    lda, dictionary, corpus = model_all()
+#     #Building LDA Model
+#     print('Building LDA model')
+#     lda, dictionary, corpus = model_all()
     
-    print('Saving Model')
-    file = open('lda.pkl', 'wb')
-    pickle.dump(lda, file)
-    file.close()
+#     print('Saving Model')
+#     file = open('lda.pkl', 'wb')
+#     pickle.dump(lda, file)
+#     file.close()
 
-    print('Saving Dictionary')
-    file = open('dictionary.pkl', 'wb')
-    pickle.dump(dictionary, file)
-    file.close()
+#     print('Saving Dictionary')
+#     file = open('dictionary.pkl', 'wb')
+#     pickle.dump(dictionary, file)
+#     file.close()
+
+    # Reading dictionary and model files:
+    print("Loading lda model")
+    with open('lda.pkl', 'rb') as f:
+        lda = pickle.load(f)
+
+    print("Loading dictionary")
+    with open('dictionary.pkl', 'rb') as f:
+        dictionary = pickle.load(f)
     
     #Adding topic distribution to dataframe
     print('Calculating topics for each article')
