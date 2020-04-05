@@ -24,6 +24,11 @@ A statistical heat-map plugin for Wikipedia pages
 - $./run_download_wikipedia.sh clickstream 202001 1
 - $./run_download_wikipedia.sh pageview 202001 10
 
+# How to run difficulty_score_model.py
+1. Make sure you have article_summary and score_pred files in Datasets folder
+2. Run "python difficulty_score_model.py (article_summary file name) (score_pred file name)"
+- for example: python difficulty_score_model.py article_summary-202001.csv score_pred
+
 # Data Pipeline
 1. Please read 'DataPipeline.md'
 
