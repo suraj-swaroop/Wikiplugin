@@ -7,15 +7,112 @@
           min-height: 300px;
         }
       </style>
+	  
+	  <link async rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
     </head>
+
+    
     <body>
       <h2> Recolour Wikipedia Links! </h2>
       <div id="recolourToggle">
         <input type="checkbox" class="control-input" id="switch">
         <label class="control-label" for="switch">Recolour links</label>
       </div>
-      <h4> //PUT SOME OVERALL ANALYSIS HERE// </h4>
+      <h4> //PUT SOME OVERALL ANALYSIS HERE test test // </h4>
+
+      
+	  
+	  
+	  
+	  
+	  <div class="ui-container">
+              <div class="description" data-i18n="app_text3">I. Load SQLite</div>
+              <div id="loader"><img src="resource/loader.gif"/></div>
+              <div class="upload">
+                <div id="fileinfo"></div>
+                <input type="file" id="dbfile"></input>
+                <div class="title" data-i18n="app_text4">Click to load or drag & drop SQLite database here</div>
+         
+              </div>
+              <div class="row">
+                  <div id="pnl-actions" class="col-lg-12 text-center">
+                    <p>
+                      <a href="https://sqlreader.freebusinessapps.net/reader">
+                        <span data-i18n="app_text_support">
+                            We support direct read and download files right to your Google Drive or your PC on our website.
+                          </span>
+                      </a>
+                  </div>
+                </div>
+
+              <main>
+                <div class="toolbar">
+                  <button id="execute" class="button" data-i18n="app_toolbar_btn_ex">Execute SQLite</button>
+                  <button id="reload" class="button" data-i18n="app_toolbar_btn_reload">Reload UI</button>
+                  <button id="clear" class="button" data-i18n="app_toolbar_btn_clear">Clear UI</button>
+                  <button id="save" class="button" data-i18n="app_toolbar_btn_save">Save Database</button>
+                  <button id="sample" class="button" data-i18n="app_toolbar_btn_sample">Insert a Sample SQLite</button>
+                  
+                </div>
+                <div class="description" data-i18n="app_text5">II. Edit SQLite</div>
+                <div id="info" class="info"></div>
+                <textarea id="commands"></textarea>
+              </main>
+              <div class="description" data-i18n="app_text6">III. Render SQLite</div>
+              <div class="container"><pre id="output"></pre></div>
+          
+          </div>
+          <!--template-->
+        <hr />
+          
+        <div class="row">
+          <div id="pnl-actions" class="col-lg-12 text-center">
+    
+            <p>
+              <a href="https://sqlreader.freebusinessapps.net/reader">
+                <span data-i18n="app_text_support">
+                  We support direct read and download files right to your Google Drive or your PC on our website.
+                </span>
+              </a>
+            </p>
+    
+    
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-3">&nbsp;</div>
+          <div class="col-6">
+            <a href='#' target='_blank' class="teaser">
+              <div style="text-align: center;margin-top:15px;">
+                <span>Please Rate Us!</span>
+                <br>
+                <span class="five-stars">⭑⭑⭑⭑⭑</span>
+              </div>
+            </a>
+      
+          </div>
+        </div>        
+  
+      </div>
+	  
+	  
+	  
+	  
+        
+
       <script src="popup.js"></script>
+	  
+	  
+	  <script type="text/javascript" src="vendor/codemirror/lib/codemirror.js"></script>
+      <script type="text/javascript" src="vendor/codemirror/mode/sql/sql.js"></script>
+      <script type="text/javascript" src="vendor/sql/worker.sql.js"></script>
+      <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+      <script type="text/javascript" src="js/Localize.js"></script>
+      <script type="text/javascript" src="js/index.js"></script>
     </body>
 
   </html>

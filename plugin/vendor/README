@@ -1,0 +1,8 @@
+SQL Reader add-on uses the following open-source projects.
+The link to download each project is as following:
+
+Source code for "worker.sql.js":
+https://github.com/kripken/sql.js/blob/master/js/worker.sql.js
+
+Source code for codemirror files (codemirror.css, codemirror.js, sql.js):
+https://codemirror.net/codemirror.zip
