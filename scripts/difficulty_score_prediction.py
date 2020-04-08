@@ -26,6 +26,7 @@ def prediction(data, filename):
     final_pred_prob = loaded_model.predict_proba(features)
     final_pred = loaded_model.predict(features)
 
+    data['Score'] = final_pred.tolist()
     data['difficulty'] = final_pred.tolist()
     data['probability'] = final_pred_prob.tolist()
 
@@ -34,7 +35,7 @@ def prediction(data, filename):
     data['no_of_words'] = data.description.apply(lambda x: len(str(x).split(' ')))
     data[['prob_easy', 'prob_hard']] = pd.DataFrame(data.probability.values.tolist(), index=data.index)
     data['rank'] = data['prob_hard'].rank(ascending=False)
-    data = data[['Article', 'score', 'difficulty', 'no_of_words', 'rank']]
+    data = data[['Article', 'Score', 'difficulty', 'no_of_words', 'rank']]
 
     return data
 
