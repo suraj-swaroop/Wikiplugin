@@ -30,10 +30,10 @@ def prediction(data, filename):
     data['difficulty'] = final_pred.tolist()
     data['probability'] = final_pred_prob.tolist()
 
-    dict_values = {1.0: 'Hard', 0.0: 'Easy'}
+    dict_values = {1.0: 'Easy', 2.0: 'Easy', 3.0: 'Hard'}
     data = data.replace({"difficulty": dict_values})
     data['no_of_words'] = data.description.apply(lambda x: len(str(x).split(' ')))
-    data[['prob_easy', 'prob_hard']] = pd.DataFrame(data.probability.values.tolist(), index=data.index)
+    data[['prob_easy_1', 'prob_easy_2', 'prob_hard']] = pd.DataFrame(data.probability.values.tolist(), index=data.index)
     data['rank'] = data['prob_hard'].rank(ascending=False)
     data = data[['Article', 'Score', 'difficulty', 'no_of_words', 'rank']]
 
