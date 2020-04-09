@@ -5,7 +5,23 @@ from nltk import word_tokenize
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import Binarizer
+import mysql.connector
 
+def read_data(): # connects to mysql db and reads the data
+	cnx = mysql.connector.connect(user='root', password='Ubuntu@1',
+								  host='localhost', auth_plugin='mysql_native_password',
+								  database='big_data')
+
+	mycursor = cnx.cursor()
+	mycursor.execute("SELECT * FROM article_summary")
+
+	records = mycursor.fetchall()  # fetches the records from the cursor as a list
+	df = pd.DataFrame(records, columns=['index','index2', 'Snapshot', 'Article',	'Article Vector Centroid', 'Article Topics Distributions',
+										'TextStat Fleisch Reading Difficulty', 'Eigenvector Centrality', 'Louvain Community',
+										'Clicks in month', 'Article Length', 'Target Complexity'])
+	df = df.drop(columns=['index','index2'])
+	cnx.close()
+	return df
 
 def filter_data(summary_file, score_file):
 	print('Loading/preprocessig the data....')
@@ -14,6 +30,9 @@ def filter_data(summary_file, score_file):
 
 	df = pd.read_csv('../Datasets/'+summary_file) #reads the summary data
 	df2 = pd.read_csv('../Datasets/'+score_file) #reads the data where we have manually rated the articles
+	# df = pd.read_csv(summary_file) #reads the summary data
+	# df = read_data()
+	# df2 = pd.read_csv(score_file) #reads the data where we have manually rated the articles
 	df2 = df2[['title','sentences']]
 
 	# Joins both the dataframes
@@ -23,7 +42,7 @@ def filter_data(summary_file, score_file):
 	# Splits the string and converts it into a list
 	data['Article Topics Distribution'] = data['Article Topics Distributions'].apply(lambda x:x[1:-1].split(','))
 	data['Articles Vector Centroid'] = data['Article Vector Centroid'].apply(lambda x:x[1:-1].split())
-	data = data.drop(['Unnamed: 0','title','Article Vector Centroid', 'Article Topics Distributions'],axis=1)
+	data = data.drop(['title','Article Vector Centroid', 'Article Topics Distributions'],axis=1)
 
 	# Splits the vectors into multiple columns
 	data[['ATD_1','ATD_2','ATD_3', 'ATD_4','ATD_5']] = pd.DataFrame(data['Article Topics Distribution'].values.tolist(), index= data.index)
@@ -120,8 +139,8 @@ def model_creation(data):
 
 	print('Training the model....')
 
-	transformer = Binarizer(threshold=2, copy=False)
-	y = transformer.transform(y)
+	# transformer = Binarizer(threshold=2, copy=False)
+	# y = transformer.transform(y)
 
 	#Create the scaler object with a range of 0-1
 	scaler = MinMaxScaler(feature_range=(0, 1))
