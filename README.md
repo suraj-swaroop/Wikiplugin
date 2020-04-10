@@ -29,6 +29,11 @@ A statistical heat-map plugin for Wikipedia pages
 2. Run "python difficulty_score_model.py (article_summary file name) (score_pred file name)"
 - for example: python difficulty_score_model.py article_summary-202001.csv score_pred
 
+# How to run difficulty_score_prediction.py
+1. Make sure to have the article_summary file and a file containing the articles for which you want to make a prediction(this file must have the articles and it's description columns ex: score_pred).
+2. Run "$python difficulty_score_prediction.py (article_summary file name) (prediction file name)"
+- $python difficulty_score_prediction.py article_summary-202001.csv score_pred
+
 # Data Pipeline
 1. Please read 'DataPipeline.md'
 
