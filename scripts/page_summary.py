@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import sys
+from plotly.subplots import make_subplots
 
 def main(df):
     year = '2020'
@@ -44,28 +45,38 @@ def main(df):
     proportion = proportion.values.tolist()
     article_count = new_df.values.tolist()
     Topics = df_cols.tolist()
-    result = {'Topics': Topics, 'Article_count': article_count, 'Proportion': proportion} #a dictionary of the topics, articles under each topic and their distribution
+    result = {'Topics': Topics, 'Article_count': article_count, 'Proportion': proportion}
 
-    return result, Topics, article_count
+    return result
 
 def plot_pie(result):
-    fig = px.sunburst(result, names='Topics', parents= 'Article_count', values='Proportion', ##path=['Topics', 'Article_count'], values='Proportion',
+    for key, value in result.items():
+        if key == 'Article_count':
+            value = [str(i) for i in value]
+            result.update({'Article_count': value})
+
+    fig = px.sunburst(result, path=['Topics', 'Article_count'], values='Proportion',
                       color='Proportion', hover_data=['Article_count'], color_continuous_scale='Peach')
+    fig.update_traces(textfont_size=12, textfont_color='black')
+    fig.update_layout(hoverlabel_font_color='black', title_text='Wikipedia Page Summary')
 
-    fig.update_layout(hoverlabel_font_color='rgb(0,0,0)', title_text='Wikipedia Page Summary')
     fig.show()
 
-def plot_bar(Topics, article_count):
-    fig = go.Figure(data=[go.Bar(x=Topics, y=article_count)])
+def plot_bar(result):
+    fig = make_subplots(rows=1, cols=2,
+                        subplot_titles=("Wikipedia Article distribution", "Wikipedia Article proportion"))
 
-    fig.update_traces(marker_color='lightsalmon', marker_line_color='indianred', width=0.5,
-                      marker_line_width=1.5, opacity=0.6)
-    fig.update_layout(xaxis_title='Topics', yaxis_title="Number of Topics", title_text='Wikipedia Page Summary')
+    fig.add_trace(go.Bar(x=result['Topics'], y=result['Article_count'], name='Number of Articles', marker_color='indianred',
+                         width=0.5, marker_line_width=1.5, opacity=0.8), 1, 1)
+    fig.add_trace(go.Bar(x=result['Topics'], y=result['Proportion'], name='Article Distribution', marker_color='lightsalmon',
+                         width=0.5, marker_line_width=1.5, opacity=0.8), 1, 2)
+
     fig.show()
+
 
 if __name__ == '__main__':
     summary_file = sys.argv[1]
     df = pd.read_csv(summary_file)
-    result, Topics, article_count = main(df)
+    result = main(df)
     plot_pie(result)
-    plot_bar(Topics, article_count)
+    plot_bar(result)
