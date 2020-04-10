@@ -54,4 +54,7 @@ https://docs.google.com/presentation/d/1s90G7Oy4ttr4JGF00GpPXbya9oWgYCL5uDMDydW6
 # Manual Coding Sheet
 https://docs.google.com/spreadsheets/d/19a6dcgVih2JuC54kkl2GmVK4rJMlFVQbqYUnbjCIZDE/edit?usp=sharing
 	
+# Sqlite Database
+https://drive.google.com/file/d/1-oMlCy3txpK9NWvlQc_3Gp0WNImhlbGw/view?usp=sharing
+
 	    	
