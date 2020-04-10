@@ -35,7 +35,7 @@ def prediction(data, filename):
     data['no_of_words'] = data.description.apply(lambda x: len(str(x).split(' ')))
     data[['prob_easy_1', 'prob_easy_2', 'prob_hard']] = pd.DataFrame(data.probability.values.tolist(), index=data.index)
     data['rank'] = data['prob_hard'].rank(ascending=False)
-    data = data[['Article', 'Score', 'difficulty', 'no_of_words', 'rank']]
+    data = data[['Article', 'Score', 'probability', 'difficulty', 'no_of_words', 'rank']]
 
     return data
 
