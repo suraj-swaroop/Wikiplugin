@@ -17,3 +17,6 @@ How to get the model and probabilities.csv in Outputs folder
 
 6. run cells in difficulty_score_model_v2.ipynb
 => ../Outputs/probabilities.csv and ../Outputs/model/complexity_model.sav
+
+Link to predictions.csv: 
+https://drive.google.com/open?id=1ymjW1jPzXSGxy1TQwz8zhHlZ7Pe1h_mu
