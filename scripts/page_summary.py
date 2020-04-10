@@ -44,7 +44,7 @@ def main(df):
     proportion = proportion.values.tolist()
     article_count = new_df.values.tolist()
     Topics = df_cols.tolist()
-    result = {'Topics': Topics, 'Article_count': article_count, 'Proportion': proportion}
+    result = {'Topics': Topics, 'Article_count': article_count, 'Proportion': proportion} #a dictionary of the topics, articles under each topic and their distribution
 
     return result, Topics, article_count
 
