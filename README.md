@@ -39,6 +39,11 @@ A statistical heat-map plugin for Wikipedia pages
 2. Run "$python page_summary.py (article_summary file name)"
 - Example: $python page_summary.py article_summary-202001.csv
 
+# How to run the flask app
+1. Run "pip install flask", "pip install flask-wtf", and "pip install sqlalchemy" (for the future usage)
+2. Make sure you have run.py and web_application folder in the main directory
+2. Go to the main directory and run "python run.py"
+
 # Data Pipeline
 1. Please read 'DataPipeline.md'
 
