@@ -67,4 +67,6 @@ https://docs.google.com/spreadsheets/d/19a6dcgVih2JuC54kkl2GmVK4rJMlFVQbqYUnbjCI
 # Sqlite Database
 https://drive.google.com/file/d/1-oMlCy3txpK9NWvlQc_3Gp0WNImhlbGw/view?usp=sharing
 
+# Final Presentation
+https://docs.google.com/presentation/d/14qYMuM3UyDD7MibtD9Y4NBXFnYYDZPAn7tTN97kJOjE/edit#slide=id.p
 	    	
