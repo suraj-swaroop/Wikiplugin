@@ -1,3 +1,15 @@
+chrome.tabs.getSelected(null, function(tab) {
+  // Send a request to the content script.
+  chrome.tabs.sendMessage(tab.id, {message: "getInfo"}, function(response) {
+    wiki_title = response.title;
+  });
+});
+
+toggle.addEventListener('change', (event) => {
+  beautifier.setValue("SELECT `To`, `Count`\n  FROM `Clickstream`\n  WHERE `From`='" + wiki_title + "';");
+  config.sql.exec("clickstream");
+});
+
 var background = (function () {
   var r = {};
   chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -69,11 +81,22 @@ var config = {
     	config.time.tic();
     	config.app.worker.postMessage({"action": "export"});
     },
-    "execute": function (cmd) {
+    "execute": function (cmd, type) {
+      console.log(cmd);
     	config.time.tic();
     	config.app.worker.onmessage = function (e) {
     		var results = e.data.results;
+        console.log(results);
         if (results) {
+          if(type=="minutes"){
+            document.getElementById('readingTime').innerHTML = "Estimated Reading Time: " + Math.ceil((results[0].values)[0][0]) + " minutes";
+          }
+          if(type=="clickstream"){
+            //need to send to content.js
+            chrome.tabs.query({active: true,currentWindow:true},function(tabs){
+              chrome.tabs.sendMessage(tabs[0].id, {message: results[0].values}); // sends message to content.js to change link colours
+            });
+          }
       		config.time.toc(chrome.i18n.getMessage('app_notify4'), true);
       		config.time.tic();
       		config.sql.output.textContent = '';
@@ -96,7 +119,7 @@ var config = {
     "dbfile": document.getElementById("dbfile"),
     "output": document.getElementById("output"),
     "commands": document.getElementById("commands"),
-    "exec": function () {config.app.execute(beautifier.getValue() + ';')},
+    "exec": function (type="") {config.app.execute(beautifier.getValue() + ';', type)},
     "size": function (s) {
       if (s) {
         if (s >= Math.pow(2, 30)) {return (s / Math.pow(2, 30)).toFixed(1) + "GB"};
@@ -169,8 +192,9 @@ var load = function () {
   	reader.onload = function () {
   		config.app.worker.onmessage = function () {
   			config.time.toc(chrome.i18n.getMessage('app_notify1'), true);
-  			beautifier.setValue("SELECT `name`, `sql`\n  FROM `sqlite_master`\n  WHERE type='table';");
-  			config.sql.exec();
+  			// beautifier.setValue("SELECT `name`, `sql`\n  FROM `sqlite_master`\n  WHERE type='table';");
+        beautifier.setValue("SELECT `AdjustedReadingTimeMinutes`\n  FROM `Difficulty`\n  WHERE Article='" + wiki_title + "';");
+  			config.sql.exec("minutes");
   		};
       /*  */
   		config.time.tic();
@@ -216,3 +240,9 @@ var load = function () {
 };
 
 window.addEventListener("load", load, false);
+
+// /Users/adrienawong/Documents/SFU/CMPT733/project/wikiplugin
+
+// Users/<username>/Library/Application Support/Google/Chrome/Default
+
+// C:\Users\User\AppData\Local\Google\Chrome\User Data

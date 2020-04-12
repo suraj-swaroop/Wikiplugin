@@ -2,7 +2,7 @@
     "name": "CMPT733 Wikipedia Plugin",
     "version": "1.0",
     "description": "Links Heatmap!",
-    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "permissions": ["activeTab", "declarativeContent", "storage", "tabs"],
     "background": {
       "scripts": ["background.js"],
       "persistent": false
