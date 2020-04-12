@@ -35,9 +35,7 @@ A statistical heat-map plugin for Wikipedia pages
 - Example: $python difficulty_score_prediction.py article_summary-202001.csv score_pred
 
 # How to run page_summary.py
-1. Make sure to have the article_summary file.
-2. Run "$python page_summary.py (article_summary file name)"
-- Example: $python page_summary.py article_summary-202001.csv
+1. Import this file in your python code and call the function 'summary()' to run this code
 
 # How to run the flask app
 1. Run "pip install flask", "pip install flask-wtf", and "pip install sqlalchemy" (for the future usage)
