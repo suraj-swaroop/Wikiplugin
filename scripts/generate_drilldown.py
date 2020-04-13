@@ -28,6 +28,8 @@ def euclid_dist(c2):
 # First Table 
 def graphical_similarity(url_or_title):
     
+    snapshot = '202001'
+
     if url_or_title[0:5] == 'https':
         start = url.find('wiki/')+5
         end = len(url)
@@ -91,4 +93,4 @@ def semantic_similarity(url_or_title):
     return df2_return.head().to_dict()
 
 print(semantic_similarity('Supervised_learning'))
-
+print(graphical_similarity('Supervised_learning'))
