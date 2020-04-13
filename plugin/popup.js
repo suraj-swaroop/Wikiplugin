@@ -1,12 +1,12 @@
-chrome.tabs.getSelected(null, function(tab) {
-  // Send a request to the content script.
-  chrome.tabs.sendMessage(tab.id, {message: "getInfo"}, function(response) {
-    document.getElementById('articleName').innerHTML = "Wikipedia Article: " + response.title;
-  });
-  // chrome.tabs.sendMessage(tab.id, {message: "getMinutes"}, function(response) {
-  //   document.getElementById('readingTime').innerHTML = "Estimated Reading Time: " + response.minutes + " minutes";
-  // });
-});
+// chrome.tabs.getSelected(null, function(tab) {
+//   // Send a request to the content script.
+//   chrome.tabs.sendMessage(tab.id, {message: "getInfo"}, function(response) {
+//     document.getElementById('articleName').innerHTML = "Wikipedia Article: " + response.title;
+//   });
+//   // chrome.tabs.sendMessage(tab.id, {message: "getMinutes"}, function(response) {
+//   //   document.getElementById('readingTime').innerHTML = "Estimated Reading Time: " + response.minutes + " minutes";
+//   // });
+// });
 
 let toggle = document.getElementById('switch');
 
@@ -29,5 +29,4 @@ toggle.addEventListener('change', (event) => {
 	});
 });
 
-// change file upload button when there is a file already in storage
-// save file in chrome.storage.local 
+//todo: save file to storage

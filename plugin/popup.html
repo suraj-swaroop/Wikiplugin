@@ -26,12 +26,7 @@
   	   	  <p id = "readingTime"></p>
   	    </h6>
   	  </center>
-      <center>
-        <div id="recolourToggle">
-  	      <input type="checkbox" class="control-input" id="switch">
-  	      <label class="control-label" for="switch">Recolour links based on popularity</label>
-  	    </div>
-   	  </center>
+      
       
       
 	  
@@ -39,15 +34,28 @@
 	  
 	  
 	  <div class="ui-container">
+              <center>
+               <h6>
+                Please click on the box below to upload your file:
+               </h6>
+              </center>
               <div class="description" data-i18n="app_text3">I. Load SQLite</div>
               <div id="loader"><img src="resource/loader.gif"/></div>
               <div class="upload">
                 <div id="fileinfo"></div>
                 <input type="file" id="dbfile"></input>
-                <div class="title" data-i18n="app_text4">Click to load or drag & drop SQLite database here</div>
+                <!-- <div class="title" data-i18n="app_text4">Click to load or drag & drop SQLite database here</div> -->
          
               </div>
-              <div class="row">
+
+              <center>
+                <div id="recolourToggle">
+                  <input type="checkbox" class="control-input" id="switch">
+                  <label class="control-label" for="switch">Recolour links based on popularity</label>
+                  <img src="red_scale.png" width="250">
+                </div>
+              </center>
+              <!-- <div class="row">
                   <div id="pnl-actions" class="col-lg-12 text-center">
                     <p>
                       <a href="https://sqlreader.freebusinessapps.net/reader">
@@ -56,29 +64,29 @@
                           </span>
                       </a>
                   </div>
-                </div>
+                </div> -->
 
               <main>
-                <div class="toolbar">
-                  <button id="execute" class="button" data-i18n="app_toolbar_btn_ex">Execute SQLite</button>
-                  <button id="reload" class="button" data-i18n="app_toolbar_btn_reload">Reload UI</button>
-                  <button id="clear" class="button" data-i18n="app_toolbar_btn_clear">Clear UI</button>
-                  <button id="save" class="button" data-i18n="app_toolbar_btn_save">Save Database</button>
-                  <button id="sample" class="button" data-i18n="app_toolbar_btn_sample">Insert a Sample SQLite</button>
+                <!-- <div class="toolbar"> -->
+                  <!-- <button id="execute" class="button" data-i18n="app_toolbar_btn_ex">Execute SQLite</button> -->
+                  <!-- <button id="reload" class="button" data-i18n="app_toolbar_btn_reload">Reload UI</button> -->
+                  <!-- <button id="clear" class="button" data-i18n="app_toolbar_btn_clear">Clear UI</button> -->
+                  <!-- <button id="save" class="button" data-i18n="app_toolbar_btn_save">Save Database</button> -->
+                  <!-- <button id="sample" class="button" data-i18n="app_toolbar_btn_sample">Insert a Sample SQLite</button> -->
                   
-                </div>
-                <div class="description" data-i18n="app_text5">II. Edit SQLite</div>
-                <div id="info" class="info"></div>
+                <!-- </div> -->
+                <!-- <div class="description" data-i18n="app_text5"></div> -->
+                <!-- <div id="info" class="info"></div> -->
                 <textarea id="commands"></textarea>
               </main>
-              <div class="description" data-i18n="app_text6">III. Render SQLite</div>
-              <div class="container"><pre id="output"></pre></div>
+              <!-- <div class="description" data-i18n="app_text6"></div> -->
+              <!-- <div class="container"><pre id="output"></pre></div> -->
           
           </div>
           <!--template-->
-        <hr />
+        <!-- <hr /> -->
           
-        <div class="row">
+   <!--      <div class="row">
           <div id="pnl-actions" class="col-lg-12 text-center">
     
             <p>
@@ -91,9 +99,9 @@
     
     
           </div>
-        </div>
+        </div> -->
 
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-3">&nbsp;</div>
           <div class="col-6">
             <a href='#' target='_blank' class="teaser">
@@ -105,7 +113,7 @@
             </a>
       
           </div>
-        </div>        
+        </div>      -->   
   
       </div>
 	  
