@@ -20,6 +20,11 @@ function showToggle(){
 }
 
 hideToggle();
+document.getElementById('recolourUnavailable').style.visibility = "hidden";
+
+function getValue(callback) {
+  chrome.storage.sync.get('checked', callback);
+};
 
 // function getDBFileValue(callback) {
 //   chrome.storage.local.get('dbfile', callback);
@@ -111,12 +116,24 @@ var config = {
               document.getElementById('readingTime').innerHTML = "Estimated Reading Time: " + Math.ceil((results[0].values)[0][0]) + " minutes";
             }
             showToggle();
+            getValue(function(key){
+              if (key['checked']) {
+                toggle.dispatchEvent(new Event('change'));
+              };
+            });
           }
           if(type=="clickstream"){
             //need to send to content.js
-            chrome.tabs.query({active: true,currentWindow:true},function(tabs){
-              chrome.tabs.sendMessage(tabs[0].id, {message: results[0].values}); // sends message to content.js to change link colours
-            });
+            console.log('clickstream');
+            console.log(results);
+            if(results.length == 0){
+              hideToggle();
+              document.getElementById('recolourUnavailable').style.visibility = "visible";
+            } else {
+              chrome.tabs.query({active: true,currentWindow:true},function(tabs){
+                chrome.tabs.sendMessage(tabs[0].id, {message: results[0].values}); // sends message to content.js to change link colours
+              });
+            }
           }
       		config.time.toc(chrome.i18n.getMessage('app_notify4'), true);
       		config.time.tic();
