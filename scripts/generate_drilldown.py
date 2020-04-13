@@ -76,6 +76,10 @@ def semantic_similarity(url_or_title):
     df2 = pd.read_sql(SQL_semantic, engine)
     df2['Article Vector Centroid'] = df2['Article Vector Centroid'].apply(npify)
     c1 = df2[df2['Article'] == url_last_part]['Article Vector Centroid'].values[0]
+
+    def euclid_dist(c2):
+        return np.linalg.norm(c1-c2)
+
     df2['EuclideanDist'] = df2['Article Vector Centroid'].apply(euclid_dist)
     df2 = df2.sort_values(by='EuclideanDist')
     df2 = df2[df2['Article'] != url_last_part]
@@ -86,4 +90,5 @@ def semantic_similarity(url_or_title):
 
     return df2_return.head().to_dict()
 
+print(semantic_similarity('Supervised_learning'))
 
