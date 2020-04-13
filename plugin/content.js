@@ -1,15 +1,17 @@
 var curr_url = window.location.href;
 // chrome.runtime.onMessage.addListener(recolour);
 s_arr = []
-
+var set_checked = false;
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
  if (request.message == "getInfo"){
-   sendResponse({title: document.getElementById("firstHeading").textContent});
+   var url = window.location.href;
+   var n = url.lastIndexOf('/');
+   sendResponse({title: url.substring(n+1)});
  } else if (typeof request.message === "boolean"){
-   recolour(request.message);
+   set_checked = request.message;
  } else if (typeof request.message === "object"){
    s_arr = request.message;
-   recolour(true);
+   recolour(set_checked);
  }
  else
    sendResponse({}); // Send nothing..
@@ -41,7 +43,6 @@ getValue(function(key){
 function recolour(message) {
 	let links = document.getElementById("bodyContent").getElementsByTagName("a");
 	let red_hex = ['#FF9999', '#FF0000', '#990000', '#660000']; // 4 red colours of different values
-  console.log(s_arr);
   var counts = s_arr.map(function(value,index) { return value[1]; }).sort();
   q_25 = Quartile(counts, 0.25);
   q_50 = Quartile(counts, 0.5);
