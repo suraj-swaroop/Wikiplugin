@@ -4,7 +4,9 @@ s_arr = []
 var set_checked = false;
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
  if (request.message == "getInfo"){
-   sendResponse({title: document.getElementById("firstHeading").textContent});
+   var url = window.location.href;
+   var n = url.lastIndexOf('/');
+   sendResponse({title: url.substring(n+1)});
  } else if (typeof request.message === "boolean"){
    set_checked = request.message;
  } else if (typeof request.message === "object"){
