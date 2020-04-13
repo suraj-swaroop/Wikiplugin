@@ -90,7 +90,9 @@ def semantic_similarity(url_or_title):
     df2_return = df2[['Article','URL','EuclideanDist','ProbabilityOfDifficulty','AdjustedReadingTimeMinutes']]
     df2_return.head()
 
-    return df2_return.head().to_dict()
+    return df2_return.head().reset_index()[['Article','URL','EuclideanDist','AdjustedReadingTimeMinutes']].to_dict()
 
+print('semantic similarity')
 print(semantic_similarity('Supervised_learning'))
 print(graphical_similarity('Supervised_learning'))
+
