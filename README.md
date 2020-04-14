@@ -1,6 +1,9 @@
 # WikiPlugin
 A statistical heat-map plugin for Wikipedia pages
 
+# WikiPlugin Analysis
+Website: http://172.105.25.92/ 
+
 # Initially used datasets
 <b>clickstream:</b> enwiki (second file) from https://dumps.wikimedia.org/other/clickstream/2020-01/ <br>
 <b>article text:</b> multistream1 and index1 from https://dumps.wikimedia.org/enwiki/20200101/ <br>
