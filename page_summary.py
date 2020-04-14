@@ -1,13 +1,17 @@
 import pandas as pd
 import plotly.express as px
 import sqlalchemy
+# import getpass
 
 def generateSummaryResult(snapshot):
 
     with open('web_application/database.key', 'r') as file:
         DB_URIfix = file.read()
     engine = sqlalchemy.create_engine(DB_URIfix)
-
+    # user = getpass.getpass()
+    # pwd = getpass.getpass()
+    # DB_URIfix = 'mysql+pymysql://' + user + ':' + pwd + '@35.197.16.55/wiki' + '?charset=utf8mb4'
+    # engine = sqlalchemy.create_engine(DB_URIfix)
     if len(snapshot) == 0:
         snapshot = '202001'
     query = """ SELECT * FROM wiki.Topics WHERE `Snapshot` = """ +snapshot+ """; """
@@ -39,7 +43,7 @@ def generateSummaryResult(snapshot):
     prop = []
     final_df = pd.DataFrame(Topics, columns=['categories'])
     final_df = pd.concat([final_df, pd.DataFrame(proportion, columns=['proportion'])], axis=1)
-    final_df = final_df.sort_values(by='proportion', ascending=True)
+    final_df = final_df.sort_values(by='proportion', ascending=False)
     final_df = final_df.round({"proportion": 2})
     for i in final_df['categories']:
         topics.append(i)
@@ -50,7 +54,7 @@ def generateSummaryResult(snapshot):
     # Plots the sunburst(pie) graph
     fig = px.sunburst(result, path=['Topics'], values='Proportion',
                       color='Proportion',
-                      color_continuous_scale='Peach', width=700, height=600)
+                      color_continuous_scale='Peach', width=600, height=500)
     fig.update_traces(textfont_size=14, textfont_color='black')
     fig.update_layout(hoverlabel_font_color='black', title_text='Wikipedia Page Summary',
                       font=dict(
