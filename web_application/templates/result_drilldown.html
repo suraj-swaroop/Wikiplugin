@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block content %}
+	{% for message in get_flashed_messages() %}
+        <p><font  color="red">{{ message }}</font></p>
+    {% endfor %}
+	<h3>Graphical Similarity for {{db_result}}</h3><br />
+	<div style="width: 100%">
+		<table style="table-layout: fixed; width: 100%">
+			<colgroup>
+				<col style="width: 5%;">
+				<col style="width: 40%;">
+				<col style="width: 55%;">
+			</colgroup>
+			<tr>
+				<th>No.</th>
+				<th>Title</th>
+				<th>Link</th>
+			</tr>
+			{% for i in range(5) %}
+			<tr>
+				<td>{{i+1}}</td>
+				<td style="word-wrap: break-word">{{g_titles[i]}}</td>
+				<td style="word-wrap: break-word"><a href="{{g_links[i]}}">{{g_links[i]}}</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+
+		<br /><br />
+
+		<h3>Semantic Similarity for {{db_result}}</h3><br />
+
+		<table style="table-layout: fixed; width: 100%">
+			<colgroup>
+				<col style="width: 5%;">
+				<col style="width: 30%;">
+				<col style="width: 35%;">
+				<col style="width: 15%;">
+				<col style="width: 15%;">
+			</colgroup>
+			<tr>
+				<th>No.</th>
+				<th>Title</th>
+				<th>Link</th>
+				<th>Distance</th>
+				<th>R. Time</th>
+			</tr>
+			{% for i in range(5) %}
+			<tr>
+				<td>{{i+1}}</td>
+				<td style="word-wrap: break-word">{{s_titles[i]}}</td>
+				<td style="word-wrap: break-word"><a href="{{s_links[i]}}">{{s_links[i]}}</a></td>
+				<td style="word-wrap: break-word">{{s_distance[i]}}</td>
+				<td>{{s_time[i]}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+		<br /><br />
+	</div>
+
+{% endblock content %}
+

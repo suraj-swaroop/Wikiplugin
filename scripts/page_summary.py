@@ -1,17 +1,19 @@
-def summary():
-    import pandas as pd
-    import plotly.express as px
-    import plotly.graph_objects as go
-    from plotly.subplots import make_subplots
-    import getpass
-    import sqlalchemy
+import pandas as pd
+import plotly.express as px
+import sqlalchemy
+# import getpass
 
-    user = getpass.getpass(prompt='User: ')
-    pwd = getpass.getpass()
-    DB_URIfix = 'mysql+pymysql://' + user + ':' + pwd + '@35.197.16.55/wiki' + '?charset=utf8mb4'
+def generateSummaryResult(snapshot):
+
+    with open('web_application/database.key', 'r') as file:
+        DB_URIfix = file.read()
     engine = sqlalchemy.create_engine(DB_URIfix)
-
-    snapshot = '202001'
+    # user = getpass.getpass()
+    # pwd = getpass.getpass()
+    # DB_URIfix = 'mysql+pymysql://' + user + ':' + pwd + '@35.197.16.55/wiki' + '?charset=utf8mb4'
+    # engine = sqlalchemy.create_engine(DB_URIfix)
+    if len(snapshot) == 0:
+        snapshot = '202001'
     query = """ SELECT * FROM wiki.Topics WHERE `Snapshot` = """ +snapshot+ """; """
     df = pd.read_sql(query, engine)
     df['Article Topics Distribution'] = df['Article Topics Distributions'].apply(lambda x: x[1:-1].split(','))
@@ -32,45 +34,45 @@ def summary():
     df.loc['Total', 1:] = df.sum(axis=0)
     df.fillna('', inplace=True)
     proportion = df.iloc[-1, 1:-1].divide(df.iloc[-1, -1], axis='rows').rename("Proportion")
-
-    # Article count
-    df_cols = df.columns[1:-1]
-    new_df = df[df_cols]
-    new_df['Topics'] = new_df.idxmax(axis=1)
-    new_df = new_df.groupby('Topics')['Topics'].size()
-
     proportion = proportion.values.tolist()
-    proportion = [i * 100 for i in proportion]
-    article_count = new_df.values.tolist()
 
     df.rename(columns={'Topic_0': 'Social Studies', 'Topic_1': 'Hard Science', 'Topic_2': 'Dates',
                        'Topic_3': 'Technical', 'Topic_4': 'Celebrities'}, inplace=True)
     Topics = df.columns[1:-1].tolist()
-    result = {'Topics': Topics, 'Article_count': article_count, 'Proportion': proportion}
+    topics = []
+    prop = []
+    final_df = pd.DataFrame(Topics, columns=['categories'])
+    final_df = pd.concat([final_df, pd.DataFrame(proportion, columns=['proportion'])], axis=1)
+    final_df = final_df.sort_values(by='proportion', ascending=False)
+    final_df = final_df.round({"proportion": 2})
+    for i in final_df['categories']:
+        topics.append(i)
+    for i in final_df['proportion']:
+        prop.append(i)
+    result = {'Topics': topics, 'Proportion': prop}
 
     # Plots the sunburst(pie) graph
-    for key, value in result.items():
-        if key == 'Article_count':
-            value = [str(i) for i in value]
-            result.update({'Article_count': value})
-
-    fig = px.sunburst(result, path=['Topics', 'Article_count'], values='Proportion',
-                      color='Proportion', hover_data=['Article_count'], color_continuous_scale='Peach',
-                      width=700, height=600)
+    fig = px.sunburst(result, path=['Topics'], values='Proportion',
+                      color='Proportion',
+                      color_continuous_scale='Peach', width=600, height=500)
     fig.update_traces(textfont_size=14, textfont_color='black')
-    fig.update_layout(hoverlabel_font_color='black', title_text='Wikipedia Page Summary', font=dict(
+    fig.update_layout(hoverlabel_font_color='black', title_text='Wikipedia Page Summary',
+                      font=dict(
         family="Droid Sans Mono", size=16,))
     fig.write_image("wikipediapagesummary.png")
 
-    # Plots the bar graph graph
-    fig = make_subplots(rows=1, cols=2,
-                        subplot_titles=("Wikipedia Article distribution", "Wikipedia Article proportion"))
+    return result
 
-    fig.add_trace(go.Bar(x=result['Topics'], y=result['Article_count'], name='Number of Articles', marker_color='indianred',
-                         width=0.5, marker_line_width=1.5, opacity=0.8), 1, 1)
-    fig.add_trace(go.Bar(x=result['Topics'], y=result['Proportion'], name='Article Distribution', marker_color='lightsalmon',
-                         width=0.5, marker_line_width=1.5, opacity=0.8), 1, 2)
-    fig.update_layout(hoverlabel_font_color='black', title_text='Wikipedia Page Summary')
-    fig.write_image("wikipediapagesummary2.png")
+def get_summary_result(content):
+    # input will be "YYYYMMDD" (string)
+
+    result = generateSummaryResult(content)
+    result['Date'] = content
+    #result = {
+    #	'topics': ['T1', 'T2', 'T3'],
+    #	'article_count': [4569, 2918, 634],
+    #	'proportion': [0.294, 0.191, 0.060],
+    #	'date': content
+    #}
 
     return result
