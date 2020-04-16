@@ -31,6 +31,7 @@
 4. $./run_graphical_metrics.sh 202001 3
     - graphical_metrics_parallel.py 
 5. $python merge_graphical_metrics_files.py 
+6. $python clickstream_to_sql.py ../download/clickstream/202001/ clickstream-enwiki-2020-01.tsv.gz  
 
 
 # Text
