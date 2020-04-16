@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:2.112
-LABEL maintainer=”mstewart@riotgames.com”
+LABEL maintainer=”donggul@sfu.ca”
 
 # Prep Jenkins Directories
 USER root
