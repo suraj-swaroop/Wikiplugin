@@ -76,4 +76,7 @@ https://drive.google.com/file/d/1-oMlCy3txpK9NWvlQc_3Gp0WNImhlbGw/view?usp=shari
 
 # Final Presentation
 https://docs.google.com/presentation/d/14qYMuM3UyDD7MibtD9Y4NBXFnYYDZPAn7tTN97kJOjE/edit#slide=id.p
+
+# Final Report
+https://docs.google.com/document/d/1rML5W50SqVSbymYo1LIi5--IBJuKe5EaYZTaHnH-N3E/edit
 	    	
