@@ -9,6 +9,9 @@ Website: http://172.105.25.92/
 <b>article text:</b> multistream1 and index1 from https://dumps.wikimedia.org/enwiki/20200101/ <br>
 <b>pageviews:</b> first file from http://dumps.wikimedia.your.org/other/pageviews/2020/2020-01/ <br>
 
+# Data Pipeline
+1. Please read 'DataPipeline.md'
+
 # How to run the Plugin code
 1. Go to the Extension Management page: chrome://extensions
 	- or go to the Chrome menu, go to <b>More Tools<b> -> <b>Extensions<b> <br>
@@ -25,7 +28,7 @@ Website: http://172.105.25.92/
 - $./run_download_wikipedia.sh [Data Type] [YYYYMM] [Thread Count]
 - $./run_download_wikipedia.sh text 202001 10
 - $./run_download_wikipedia.sh clickstream 202001 1
-- $./run_download_wikipedia.sh pageview 202001 10
+
 
 # How to run difficulty_score_model.py
 1. Make sure you have article_summary and score_pred files in Datasets folder
@@ -45,9 +48,6 @@ Website: http://172.105.25.92/
 1. Run "pip install flask", "pip install flask-wtf", and "pip install sqlalchemy" (for the future usage)
 2. Make sure you have run.py and web_application folder in the main directory
 2. Go to the main directory and run "python run.py"
-
-# Data Pipeline
-1. Please read 'DataPipeline.md'
 
 
 # Getting the article_summary-202001.csv file
