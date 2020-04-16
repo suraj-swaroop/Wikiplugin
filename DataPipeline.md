@@ -1,3 +1,24 @@
+
+# How to run Docker
+Since we use docker-compose, it is easy to build, stop, and run docker images.
+ 1. build:      docker-compose -p jenkins build
+ 2. run:        docker-compose -p jenkins up -d nginx master proxy
+ 3. stop:	    docker-compose -p jenkins down
+ 4. clean-data: docker-compose -p jenkins down -v
+ ex) build -> run -> stop -> clean-data
+
+ 5. Docker commands: 
+    - check docker images:  docker images
+    - check running docker: docker ps
+ 6. Run scipts inside docker container:
+    - docker run -it jenkins_master /bin/bash
+        --> /var/apps/scripts
+
+# How to use Jenkins
+After starting docker images, you can use Jenkins by accesing http://localhost
+However, jobs are not registred, so you should register tasks accroding to the below order and conditions.
+
+
 # Description
 1. check_wikipedia_dataset.py
     - Create lists to download (Text, Clickstream and pageview)
