@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<h2>Summary for {{date}}</h2><br />
+
+	<table>
+		<tr>
+			<th>No.</th>
+			<th>Title</th>
+			<th>Proportion</th>
+		</tr>
+		{% for i in range(5) %}
+		<tr>
+			<td>{{i+1}}</td>
+			<td>{{topics[i]}}</td>
+			<td>{{proportion[i]}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<br><br>
+	<img src="/static/images/wikipediapagesummarypie.png" height="600" width="700" /><br><br>
+
+{% endblock content %}
+

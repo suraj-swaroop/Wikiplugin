@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+	<h2>Summary of a month</h2><br />
+	<p></p>
+	{% for message in get_flashed_messages() %}
+        <p><font  color="red">{{ message }}</font></p>
+    {% endfor %}
+
+	<div class="content-section">
+	    <form method="POST" action="">
+	    	<h5>Please enter the month of your choice (YYYYMM):</h5><br>
+	        {{ form.hidden_tag() }}
+	        <fieldset class="form-group">
+	            <div class="form-group">
+	                {{ form.content(class="form-control form-control-lg") }}
+	            </div>
+	        </fieldset>
+	        <div class="form-group">
+	            {{ form.submit(class="btn btn-outline-info") }}
+	        </div>
+	    </form>
+	</div>
+
+{% endblock content %}
+

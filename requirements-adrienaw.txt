@@ -1,8 +1,0 @@
-Package                Version   
----------------------- ----------
-gensim                 3.8.1
-pandas                 0.25.3
-nltk                   3.4.5
-numpy                  1.17.5
-textstat               0.6.0
-xmltodict              0.12.0
