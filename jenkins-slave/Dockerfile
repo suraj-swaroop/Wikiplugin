@@ -32,7 +32,7 @@ RUN apt-get update && \
 #ADD settings.xml /home/jenkins/.m2/
 # Copy authorized keys
 COPY .ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
-COPY ./scripts /home/jenkins/app/scripts
+#COPY ./scripts /home/jenkins/app/scripts
 
 #ADD ssh-private-key ~/.ssh/id_rsa
 #RUN git clone git@host:repo/path.git
@@ -40,17 +40,17 @@ COPY ./scripts /home/jenkins/app/scripts
 #Create app directory
 WORKDIR /home/jenkins
 
-RUN mkdir /home/jenkins/app/data
-RUN mkdir /home/jenkins/app/data/working
-RUN mkdir /home/jenkins/app/lock
-RUN mkdir /home/jenkins/app/data/download
-RUN mkdir /home/jenkins/app/data/Outputs
+#RUN mkdir /home/jenkins/app/data
+#RUN mkdir /home/jenkins/app/data/working
+#RUN mkdir /home/jenkins/app/lock
+#RUN mkdir /home/jenkins/app/data/download
+#RUN mkdir /home/jenkins/app/data/Outputs
 
 # VOLUME jenkins-data:/var/jenkins_home
 
 RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
-    chown -R jenkins:jenkins /home/jenkins/.ssh && \
-    chown -R jenkins:jenkins /home/jenkins/app/data
+    chown -R jenkins:jenkins /home/jenkins/.ssh 
+    #chown -R jenkins:jenkins /home/jenkins/app/data
     # chown -R jenkins:jenkins /var/jenkins_output/app/lock && \
     # chown -R jenkins:jenkins /var/jenkins_output/app/download && \
     # chown -R jenkins:jenkins /var/jenkins_output/app/Outputs
@@ -60,8 +60,8 @@ RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
 # VOLUME /home/jenkins/app/data
 
 # Copy requirement.txt
-COPY requirements.txt /home/jenkins/requirements.txt
-RUN pip install -r requirements.txt
+#COPY requirements.txt /home/jenkins/requirements.txt
+#RUN pip install -r requirements.txt
 
 # Standard SSH port
 EXPOSE 22
