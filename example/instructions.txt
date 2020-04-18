@@ -1,0 +1,5 @@
+different db connection approach using our webapp (better security) should we choose to use it.
+
+1. drop the database.key file from the whatsapp group into this folder
+2. python server.py
+3. go to localhost:5000

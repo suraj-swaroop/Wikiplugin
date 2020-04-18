@@ -5,3 +5,9 @@ jenkins-master/scripts/word_emb/
 lock/
 download/
 working/
+__pycache__/
+*.csv
+*.model
+Outputs/text/
+Outputs/clickstream/
+*.npy
