@@ -5,165 +5,54 @@ from nltk import word_tokenize
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import Binarizer
-import mysql.connector
 
-def read_data(): # connects to mysql db and reads the data
-	cnx = mysql.connector.connect(user='root', password='Ubuntu@1',
-								  host='localhost', auth_plugin='mysql_native_password',
-								  database='big_data')
+nltk.download('punkt')
 
-	mycursor = cnx.cursor()
-	mycursor.execute("SELECT * FROM article_summary")
+df = pd.read_csv('../Outputs/Summary/article_summary-202001.csv') #reads the summary data
 
-	records = mycursor.fetchall()  # fetches the records from the cursor as a list
-	df = pd.DataFrame(records, columns=['index','index2', 'Snapshot', 'Article',	'Article Vector Centroid', 'Article Topics Distributions',
-										'TextStat Fleisch Reading Difficulty', 'Eigenvector Centrality', 'Louvain Community',
-										'Clicks in month', 'Article Length', 'Target Complexity'])
-	df = df.drop(columns=['index','index2'])
-	cnx.close()
-	return df
+df['Article Topics Distributions'] = df['Article Topics Distributions'].apply(lambda x:x[1:-1].split(','))
+df['Articles Vector Centroid'] = df['Article Vector Centroid'].apply(lambda x:x[1:-1].split())
 
-def filter_data(summary_file, score_file):
-	print('Loading/preprocessig the data....')
+df[['ATD_1','ATD_2','ATD_3', 'ATD_4','ATD_5']] = pd.DataFrame(df['Article Topics Distributions'].values.tolist(), index= df.index).replace('nan', '0').replace(' nan', '0').apply(pd.to_numeric)
+df_avc = pd.DataFrame(df['Articles Vector Centroid'].values.tolist(), index= df.index).add_prefix('AVC_')
+df = pd.concat([df, df_avc[:]], axis=1)
+df = df.drop(['Article Topics Distributions','Articles Vector Centroid'],axis=1)
 
-	nltk.download('punkt')
+df['Degree'].fillna(0, inplace=True)
+df['Betweenness Centrality'].fillna(0, inplace=True)
+df['Clicks in month'].fillna(0, inplace=True)
+df = df[df['Article Vector Centroid'] != '[]']
 
-	df = pd.read_csv('../Datasets/'+summary_file) #reads the summary data
-	df2 = pd.read_csv('../Datasets/'+score_file) #reads the data where we have manually rated the articles
-	# df = pd.read_csv(summary_file) #reads the summary data
-	# df = read_data()
-	# df2 = pd.read_csv(score_file) #reads the data where we have manually rated the articles
-	df2 = df2[['title','sentences']]
+df_train = df[df['Target Complexity'] >= 0]
 
-	# Joins both the dataframes
-	data = pd.merge(df,df2,left_on='Article',right_on='title')
-	data = data.rename(columns = {'Target Complexity': 'score'})
+def targetify(col):
+    if col == 2 or col == 3:
+        return 1
+    else:
+        return 0
+    
+df_train['Target Complexity'] = df['Target Complexity'].apply(targetify)
 
-	# Splits the string and converts it into a list
-	data['Article Topics Distribution'] = data['Article Topics Distributions'].apply(lambda x:x[1:-1].split(','))
-	data['Articles Vector Centroid'] = data['Article Vector Centroid'].apply(lambda x:x[1:-1].split())
-	data = data.drop(['title','Article Vector Centroid', 'Article Topics Distributions'],axis=1)
+features  = [c for c in df.columns]
+features.remove('Unnamed: 0')
+features.remove('Snapshot')
+features.remove('Article')
+features.remove('Article Vector Centroid')
+features.remove('Target Complexity')
 
-	# Splits the vectors into multiple columns
-	data[['ATD_1','ATD_2','ATD_3', 'ATD_4','ATD_5']] = pd.DataFrame(data['Article Topics Distribution'].values.tolist(), index= data.index)
-	new_data = pd.DataFrame(data['Articles Vector Centroid'].values.tolist(), index= data.index).add_prefix('AVC_')
-	data = pd.concat([data, new_data[:]], axis=1)
-	data = data.drop(['Article Topics Distribution','Articles Vector Centroid'],axis=1)
+X = df_train[features]
+y = df_train['Target Complexity']
 
-	# filters the sentences to remove unneccesary characters and creates a description of the article
-	final_ls = []
-	for i in range(0, len(data)):
-		# tokenize = ''
-		result_list = []
-		fil_sent = data['sentences'][i]
-		line = re.sub('[!@#$]', '', fil_sent)
-		tokenize = word_tokenize(line)
-		for j in tokenize:
-			result = re.sub('[\W_]+', '', j)
-			result_list.append(result)
-			result_list = [x for x in result_list if x]
-		final_ls.append(result_list)
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaler.fit(X[['Article Length', 'Clicks in month']])
 
-	joined_list = []
-	for i in range(0, len(final_ls)):
-		res = ' '.join(final_ls[i])
-		res = [res]
-		joined_list.append(res)
+X[['Article Length', 'Clicks in month']] = scaler.transform(X[['Article Length', 'Clicks in month']])
+model = LogisticRegression().fit(X, y)
+pickle.dump(model, open('../Outputs/model/complexity_model.sav', 'wb'))
 
-	data['content'] = joined_list
-	data['description'] = data.content.apply(' '.join)
-	data = data.drop(['sentences','content'],axis=1)
-	data = data[data.score != 0]
-	data['Eigenvector Centrality'].fillna(0, inplace=True)
-	data['Louvain Community'].fillna(0, inplace=True)
+df[['Article Length', 'Clicks in month']] = scaler.transform(df[['Article Length', 'Clicks in month']])
+df['proba'] =  model.predict_proba(df[features])[:,1]
 
-	# Iterate through the columns to select the numeric one's and converts them to float
-	for col in list(data.columns):
-		if ('Difficulty' in col or 'Centrality' in col or 'Community' in col or
-				'Clicks' in col or 'Length' in col or 'score' in col or 'ATD' in col or 'AVC' in col):
-			data[col] = data[col].astype(float)
+df_sorted = df.sort_values(by='proba', ascending=False)
 
-	return data
-
-
-def model_creation(data):
-
-	'''this part of the code is to find the correlation between the features and the target'''
-	# Select the numeric columns
-	numeric_subset = data.select_dtypes('number')
-	numeric_subset.fillna(0, inplace=True) #replace nan values with 0
-
-	# Create columns with square root and log of numeric columns
-	for col in numeric_subset.columns:
-		if col == 'score':
-			next
-		else:
-			numeric_subset['sqrt_' + col] = np.sqrt(numeric_subset[col])
-			numeric_subset['log_' + col] = np.log(numeric_subset[col])
-
-	# Select the categorical columns and one-hot encode them
-	categorical_subset = data[['Article', 'description']]
-	# categorical_subset = data['Article']
-	categorical_subset = pd.get_dummies(categorical_subset)
-
-	#combinig the numerical and categorical data
-	features = pd.concat([numeric_subset, categorical_subset], axis = 1)
-
-	# Find correlations with the score 
-	correlations = features.corr()['score'].dropna().sort_values()
-	correlations = pd.DataFrame(correlations)
-	corr_filename = 'correlations.csv'
-	correlations.to_csv('correlations.csv')
-	print("To verify the correlation between the features and target check file ------> ", corr_filename)
-
-	# features = data.copy()
-
-	# Select the numeric columns
-	numeric_subset = data.select_dtypes('number')
-	numeric_subset.fillna(0, inplace=True)
-
-	# Select the categorical columns and one hot encode it
-	categorical_subset = data[['Article', 'description']]
-	# categorical_subset = data['Article']
-	categorical_subset = pd.get_dummies(categorical_subset)
-
-	#combinig the numerical and categorical data
-	features = pd.concat([numeric_subset, categorical_subset], axis = 1)
-
-	#making sure none of the score values are null
-	score = features[features['score'].notnull()] 
-
-	#seperating the column we intend to predict
-	X = score.drop(columns='score')
-	y = pd.DataFrame(score['score']) 
-
-	print('Training the model....')
-
-	# transformer = Binarizer(threshold=2, copy=False)
-	# y = transformer.transform(y)
-
-	#Create the scaler object with a range of 0-1
-	scaler = MinMaxScaler(feature_range=(0, 1))
-	scaler.fit(X)# Fit on the training data
-
-	# Transform both the training and testing data
-	X = scaler.transform(X)
-
-	# Convert y to one-dimensional array (vector)
-	y = np.array(y).reshape((-1, ))
-
-	# Create the model to use for hyperparameter tuning
-	model = LogisticRegression().fit(X, y)
-
-	# Save the model
-	filename = 'complexity_model.sav'
-	pickle.dump(model, open(filename, 'wb'))
-
-	print('Saved model: ', filename)
-
-
-if __name__ == '__main__':
-	summary_file = sys.argv[1]
-	score_file = sys.argv[2]
-	data = filter_data(summary_file, score_file)
-	model_creation(data)
+df_sorted.to_csv('../Outputs/probabilities.csv')
