@@ -7,7 +7,8 @@ Website: http://172.105.25.92/
 # Initially used datasets
 <b>clickstream:</b> enwiki (second file) from https://dumps.wikimedia.org/other/clickstream/2020-01/ <br>
 <b>article text:</b> multistream1 and index1 from https://dumps.wikimedia.org/enwiki/20200101/ <br>
-<b>pageviews:</b> first file from http://dumps.wikimedia.your.org/other/pageviews/2020/2020-01/ <br>
+
+<hr>
 
 # Data Pipeline
 1. Please read 'DataPipeline.md'
@@ -19,8 +20,9 @@ Website: http://172.105.25.92/
 3. Click <b>LOAD UNPACKED<b> <br>
 4. Select the "plugin" directory from this project <br>
 5. Go to any Wikipedia page and try it out! <br>
+6. To point to a sqlite database, you can download this one https://drive.google.com/file/d/1-oMlCy3txpK9NWvlQc_3Gp0WNImhlbGw/view?usp=sharing
 
-# How to download dataset 
+# How to download the datasets manually (the server takes care of this now) 
 1. Run 
 - $python check_wikipedia_dataset.py
 2. Run
@@ -59,6 +61,8 @@ In the scripts directory,
 5. $python clickstream_to_sql.py
 6. $python join_all_together_to_sql.py
 
+
+<hr>
 
 # Project plan and tasks/timelines
 https://docs.google.com/document/d/1cME56u_E_HTbiS8pJfOru7UYfElqrAdZx9zbTRvjJc4/edit#
