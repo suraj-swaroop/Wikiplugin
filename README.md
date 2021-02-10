@@ -34,6 +34,8 @@ Website: http://172.105.25.92/
 - $./run_download_wikipedia.sh text 202001 10
 - $./run_download_wikipedia.sh clickstream 202001 1
 
+END
+
 # Data Pipeline
 1. Please read 'DataPipeline.md'
 
